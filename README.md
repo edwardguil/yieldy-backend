@@ -1,4 +1,4 @@
-# Enter Your Answer - Project:ThunderCats
+# Enter Your Answer - Project: Thunder Cats
 
 The official git repo for our group project
 
