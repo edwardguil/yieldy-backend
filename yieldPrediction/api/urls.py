@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import UserModelView
+from .views import UserModelView, CreateUserModel
 
 urlpatterns = [
-    path('', UserModelView.as_view())
+    path('GetUserModel/', UserModelView.as_view()),
 ]

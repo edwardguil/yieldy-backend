@@ -1,8 +1,8 @@
 from django.contrib import admin
-#from . import models
+from . import models
 
 # Register your models here.
-# class UserAdminModel(admin.ModelAdmin):
-#	list_display = ['user', 'start_time', 'completion_time', 'model_type']
+class UserAdminModel(admin.ModelAdmin):
+	list_display = ['id']
 
-#admin.site.register(models.UserModel, UserAdminModel)
+admin.site.register(models.UserModel, UserAdminModel)
