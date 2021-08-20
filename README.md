@@ -11,7 +11,7 @@ The official git repo for our group project
 Backend devs stick too "api" folder
 
 
-#Quick Overview On Django:
+# Quick Overview On Django:
 
 admin.py registers database tables to the admin interface at /admin:
     - if you want a particular database table to be listed on /admin, you have to register it here
