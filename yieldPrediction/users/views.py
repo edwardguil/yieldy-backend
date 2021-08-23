@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
 from .serializers import UserSerializer
 from .models import User
@@ -10,7 +10,7 @@ import jwt, datetime
 ## Too validate tokens
 def validate_token(request):
     token = request.COOKIES.get('jsonWebToken')
-    response, user, payload = False
+    user = payload = response = False
     
     if not token:
         response = Response({'Unauthorized': 'Not jwt token in cookie. Please login.'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -42,7 +42,6 @@ def refresh_token(payload):
 
 # Create your views here.
 class UserView(APIView):
-
     #Register User
     def put(self, request):
         try:
@@ -79,7 +78,7 @@ class UserView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -94,13 +93,15 @@ class UserView(APIView):
         #}
         return response
 
-    #Get User Details
-    def get(self, request):
+class GetUserView(APIView):
+    def get(self, request, id):
+        #ID is currently unused
         user, response, payload = validate_token(request)
-        if not response:
+        if not user:
             return response
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+
+        return Response({"user" : serializer.data})
 
 """
 class RegisterView(APIView):
@@ -137,3 +138,4 @@ class LogoutView(APIView):
         }
         return response
 """
+

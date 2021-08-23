@@ -1,13 +1,14 @@
+from users.views import validate_token
 from rest_framework import serializers
-from .models import PaddockModel, CropModel
+from .models import Paddock, Crop
 
 
-class GetPaddockSerializer(serializers.ModelSerializer):
+class PaddockSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CropModel
-        fields = ['id', 'user', 'crop_type', 'field_size', 'row_spacing', 'yield_prediction', 'location']
-
-class CreatePaddockSerializer(serializers.Serializer):
-    size_ha = serializers.IntegerField()
-    rowSpacing_cm = serializers.IntegerField()
-    cropType = serializers.CharField(max_length=128)
+        model = Paddock
+        #fields = ['id', 'user', 'name', 'cropType', 'size_ha', 'rowSpacing_cm', 'location', 'yield_prediction', ]
+        exclude = ['user', 'location', 'yield_prediction']
+    
+    def get_paddocks(self, id):
+        paddocks = Paddock.objects.filter(id)
+        return PaddockSerializer(paddocks, many=True).data
