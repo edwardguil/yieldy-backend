@@ -47,11 +47,17 @@ class UserView(APIView):
 
 
 class GetUserView(APIView):
-    def get(self, request, id):
-        #ID is currently unused
-        user, response, payload = validate_token(request)
-        if not user:
+    def get(self, request, idUser):
+        #idUser is currently unused
+        jwtUser, response, payload = validate_token(request)
+        if not jwtUser:
             return response
+
+        ## The USER ID on the url path NOT jwt
+        user = User.objects.filter(id=idUser).first()
+        if user is None:
+            return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
+
         serializer = UserSerializer(user)
 
         ## -- REMOVE WHEN WE STOP PASSING JWT TO FRONTEND!!!!!!!!!!!!!!!!!

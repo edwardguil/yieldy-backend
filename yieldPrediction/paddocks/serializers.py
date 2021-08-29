@@ -1,6 +1,5 @@
-from users.views import validate_token
 from rest_framework import serializers
-from .models import Paddock, Crop
+from .models import Paddock
 
 
 class PaddockSerializer(serializers.ModelSerializer):

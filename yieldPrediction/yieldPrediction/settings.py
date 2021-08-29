@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'paddocks.apps.PaddocksConfig',
     'users.apps.UsersConfig',
+    'yields.apps.YieldsConfig',
 ]
 
 MIDDLEWARE = [

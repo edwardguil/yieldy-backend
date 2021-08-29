@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PaddockSerializer
 from .models import Crop, Paddock
-from users.views import refresh_token, validate_token
 from users.authFunctions import *
 
 
@@ -14,10 +13,15 @@ from users.authFunctions import *
 class PaddockView(APIView):
 
     #Add paddock
-    def post(self, request, id):
-        user, response, payload = validate_token(request)
-        if not user:
+    def post(self, request, idUser):
+        jwtUser, response, payload = validate_token(request)
+        if not jwtUser:
             return response
+
+        ## The USER ID on the url path NOT jwt
+        user = User.objects.filter(id=idUser).first()
+        if user is None:
+            return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         response = refresh_token(payload)
 
@@ -37,10 +41,15 @@ class PaddockView(APIView):
         return response
 
     #Get Paddock Details
-    def get(self, request, id):
-        user, response, payload = validate_token(request)
-        if not user:
+    def get(self, request, idUser):
+        jwtUser, response, payload = validate_token(request)
+        if not jwtUser:
             return response
+        
+        ## The USER ID on the url path NOT jwt
+        user = User.objects.filter(id=idUser).first()
+        if user is None:
+            return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         response = refresh_token(payload)
         response.data = {}
@@ -57,14 +66,13 @@ class PaddockView(APIView):
 
 class DeletePaddockView(APIView):
 
-    def delete(self, request, id):
+    def delete(self, request, idUser, idPaddock):
         user, response, payload = validate_token(request)
         if not user:
             return response
         
-        try:
-            print(Paddock.objects.filter(id=id).delete())
-        except:
+        result = Paddock.objects.filter(id=idPaddock).delete()
+        if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
         return response
