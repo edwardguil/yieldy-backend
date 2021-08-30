@@ -8,8 +8,6 @@ The official git repo for our group project
 3) Cd to to parent yieldPredictions"python manage.py runserver"
 4) Go to webaddress listed
 
-Backend devs stick too "api" folder
-
 
 # Quick Overview On Django:
 

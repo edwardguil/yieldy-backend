@@ -4,7 +4,7 @@ from .models import Paddock, Crop
 # Register your models here.
 class PaddockAdminModel(admin.ModelAdmin):
 	list_display = ['id', 'user', 'cropType', 'size_ha', 'rowSpacing_cm', 
-                    'yield_prediction', 'location']
+                    'location']
 
 admin.site.register(Paddock, PaddockAdminModel)
 
