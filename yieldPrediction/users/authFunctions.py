@@ -9,7 +9,7 @@ def error_response(title, message, status):
     return Response({ 'error' : {'title': title, 'message' : message}}, status=status)
 
 
-## Too validate tokens
+## Too validate tokens(test)
 def validate_token(request):
     token = request.COOKIES.get('jsonWebToken')
     user = payload = response = False
