@@ -4,13 +4,31 @@ from rest_framework import status
 from .models import User
 import jwt, datetime
 
-## Custom Error Response
 def error_response(title, message, status):
+    """Creates and returns custom response data.
+
+    Args:
+        title (str): title for the error response.
+        message (str): message for the error response.
+        status (int): http status number.
+
+    Returns:
+        rest_framework.Response: A response containing the error message.
+    """
     return Response({ 'error' : {'title': title, 'message' : message}}, status=status)
 
-
-## Too validate tokens
 def validate_token(request):
+    """Ensures JWT in Cookie is valid.
+
+    Args:
+        request (dict): A python formatted http request. 
+
+    Returns:
+        users.model.User: The User from the ID specificied in the JWT.
+        rest_framework.Response: A response containing the JWT. 
+        dict: A python formatted JWT.  
+
+    """
     token = request.COOKIES.get('jsonWebToken')
     user = payload = response = False
     
@@ -28,8 +46,15 @@ def validate_token(request):
 
     return user, response, payload
 
-## Refresh Tokens
 def refresh_token(payload):
+    """Refreshes a JWT if the expiry < 10min.
+
+    Args:
+        payload (dict): A python formatted JWT.  
+
+    Returns:
+        rest_framework.Response: A response containing the JWT. 
+    """
     response = Response()
 
     if payload['exp'] - payload['iat'] < 10:
