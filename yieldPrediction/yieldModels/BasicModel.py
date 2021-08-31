@@ -34,10 +34,10 @@ grainWeight = [
 (4.6, 190),
 (4.8, 182),
 (16, 55), # Lupin
-(18, 47), # Chickpead
+(18, 47), # Chickpea
 (50, 17.5),
 (70, 12.5) # Faba Bean
 ]
 
-def basicModel(grainsPerHead, headsPer50cm, K, rowCompensation):
+def basicModel(grainsPerHead, headsPer50cm, K, rowCompensation=1.0):
     return ((grainsPerHead*headsPer50cm)/K) * rowCompensation
