@@ -1,13 +1,6 @@
 #from rest_framework.test import APITestCase
 from .test_setup import TestSetUp
 from django.urls import reverse
-from rest_framework.test import RequestsClient
-
-
-client = RequestsClient()
-response = client.get('http://127.0.0.1:8000')
-assert response.status_code == 200
-
 
 class TestPaddockViews(TestSetUp):
         
