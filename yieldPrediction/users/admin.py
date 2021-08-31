@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import User
 
-# Register your models here.
 class UserAdminModel(admin.ModelAdmin):
+	"""Specifies which fields should be displayed on /admin"""
 	list_display = ['id', 'email', 'password']
-
+	
 admin.site.register(User, UserAdminModel)
