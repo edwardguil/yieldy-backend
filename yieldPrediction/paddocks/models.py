@@ -11,5 +11,6 @@ class Paddock(models.Model):
     name = models.CharField(max_length=128)
     size_ha = models.IntegerField()
     rowSpacing_cm = models.IntegerField()
-    yield_prediction = models.IntegerField(default=0)
     location = models.IntegerField(default=0)
+    grainsPerHead = models.IntegerField()
+    headsPerM2 = models.IntegerField()
