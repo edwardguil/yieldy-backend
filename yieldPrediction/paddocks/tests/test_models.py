@@ -19,7 +19,7 @@ class PaddockTest(TestCase):
             user = self.user,
             cropType = self.crop,
             name = "Test Paddock",
-            size_ha = 2,
+            size_ha = 120,
             rowSpacing_cm = 17.5,
             location = 0,
             grainsPerHead = 120,
@@ -36,7 +36,7 @@ class PaddockTest(TestCase):
         self.assertEquals(self.paddock.name, "Test Paddock")
     
     def test_paddock_size_ha(self):
-        self.assertEquals(self.paddock.size_ha, 2)
+        self.assertEquals(self.paddock.size_ha, 120)
     
     def test_paddock_rowSpacing_cm(self):
         self.assertEquals(self.paddock.rowSpacing_cm, 17.5)
