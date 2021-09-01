@@ -26,4 +26,3 @@ class PaddockViewTest(APITestCase):
         paddockRequest = self.factory.post(f'/user/{userRes.data["user"]["id"]}/paddock', self.paddockData)
         paddockReponse = self.view(paddockRequest)
         self.assertEquals(paddockReponse, 0)
-
