@@ -26,7 +26,8 @@ class PaddockView(APIView):
         if user is None:
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response = refresh_token(payload)
+        if not authed:
+            response = refresh_token(payload)
 
         try:
             paddock = request.data['paddock']

@@ -1,8 +1,8 @@
 from django.http import request, response
-from yieldPrediction.paddocks.models import Paddock
-from yieldPrediction.paddocks.views import DeletePaddockView
+from paddocks.models import Paddock
 from rest_framework.test import APIRequestFactory, APITestCase
 from paddocks.views import PaddockView, DeletePaddockView
+from users.views import UserView, GetUserView
 
 
 class PaddockViewTest(APITestCase):
@@ -21,8 +21,12 @@ class PaddockViewTest(APITestCase):
             }
 
     def test_paddock_post(self):
-        userReq = self.factory.post('/user/', self.userData)
-        userRes = self.view(userReq)
-        paddockRequest = self.factory.post(f'/user/{userRes.data["user"]["id"]}/paddock', self.paddockData)
-        paddockReponse = self.view(paddockRequest)
-        self.assertEquals(paddockReponse, 0)
+        userRes = self.client.post('/user/', self.userData)
+        #userRes = UserView.as_view()(userReq)
+
+        ID = userRes.data["user"]["id"]
+        self.assertEquals(userRes.status_code, 202)
+
+        paddockRequest = self.client.post(f'/user/{ID}/paddock', data = self.paddockData)
+        #paddockReponse = PaddockView.as_view()(request = paddockRequest,  idUser = ID, authed = True)
+        self.assertEquals(paddockRequest.data, 0)

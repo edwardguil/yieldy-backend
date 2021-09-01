@@ -7,5 +7,5 @@ from yieldModels import BasicModel
 class Yield(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     paddock = models.ForeignKey(Paddock, on_delete=models.CASCADE)
-    harvest_t = models.IntegerField()
+    harvest_t = models.FloatField()
     date = models.DateField()
