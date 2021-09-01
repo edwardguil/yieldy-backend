@@ -39,5 +39,5 @@ grainWeight = [
 (70, 12.5) # Faba Bean
 ]
 
-def basicModel(grainsPerHead, headsPer50cm, K, rowCompensation=1.0):
+def basicModel(grainsPerHead, headsPer50cm, K, rowCompensation=1.0) -> float:
     return ((grainsPerHead*headsPer50cm)/K) * rowCompensation

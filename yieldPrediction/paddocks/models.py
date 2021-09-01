@@ -10,7 +10,7 @@ class Paddock(models.Model):
     cropType = models.ForeignKey(Crop, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=128)
     size_ha = models.IntegerField()
-    rowSpacing_cm = models.IntegerField()
+    rowSpacing_cm = models.FloatField()
     location = models.IntegerField(default=0)
     grainsPerHead = models.IntegerField()
     headsPerM2 = models.IntegerField()
