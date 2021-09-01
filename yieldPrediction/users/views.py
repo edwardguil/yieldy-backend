@@ -52,19 +52,23 @@ class UserView(APIView):
 class GetUserView(APIView):
     """A View for the endpoint /user/<int:idUser>"""
 
-    def get(self, request, idUser):
+    def get(self, request, idUser, authed=False):
         """Returns user information.
 
         Args:
             request (dict): A python formatted http post request. 
             idUser (int): the int representation of the slug from /users/<int:idUser>.
+            authed (bool): used for testing purposes - bypass JWT verification
 
         Returns:
             rest_framework.Response: A response containing user data & JWT token (via cookie). 
         """
-        jwtUser, response, payload = validate_token(request)
-        if not jwtUser:
-            return response
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
 
         ## The User specificied from the slug
         user = User.objects.filter(id=idUser).first()

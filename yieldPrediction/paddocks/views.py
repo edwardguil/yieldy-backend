@@ -13,10 +13,13 @@ from users.authFunctions import *
 class PaddockView(APIView):
 
     #Add paddock
-    def post(self, request, idUser):
-        jwtUser, response, payload = validate_token(request)
-        if not jwtUser:
-            return response
+    def post(self, request, idUser, authed=False):
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
 
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -41,10 +44,13 @@ class PaddockView(APIView):
         return response
 
     #Get Paddock Details
-    def get(self, request, idUser):
-        jwtUser, response, payload = validate_token(request)
-        if not jwtUser:
-            return response
+    def get(self, request, idUser, authed=False):
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
         
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -66,10 +72,13 @@ class PaddockView(APIView):
 
 class DeletePaddockView(APIView):
 
-    def delete(self, request, idUser, idPaddock):
-        user, response, payload = validate_token(request)
-        if not user:
-            return response
+    def delete(self, request, idUser, idPaddock, authed=False):
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
         
         result = Paddock.objects.filter(id=idPaddock).delete()
         if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
