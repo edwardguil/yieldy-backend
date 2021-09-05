@@ -6,7 +6,7 @@ class PaddockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paddock
         #fields = ['id', 'user', 'name', 'cropType', 'size_ha', 'rowSpacing_cm', 'location', 'yield_prediction', ]
-        exclude = ['user', 'location']
+        exclude = ['user']
     
     def get_paddocks(self, id):
         paddocks = Paddock.objects.filter(id)

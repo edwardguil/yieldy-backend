@@ -37,7 +37,7 @@ def validate_token(request):
                                     status.HTTP_401_UNAUTHORIZED)
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-    except jwt.ExpiredSignatureError:
+    except:
         response = error_response('Unauthorized', 'Expired JWT. Please login.', 
                                     status.HTTP_401_UNAUTHORIZED)
     else:
