@@ -21,4 +21,4 @@ class PaddockSerializerTest(TestCase):
         self.serializer = PaddockSerializer()
 
     def test_paddock_serializer(self):
-        print(self.serializer.get_paddocks(2))
+        print(self.serializer.get_paddocks())

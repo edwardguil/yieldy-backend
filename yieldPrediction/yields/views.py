@@ -12,10 +12,13 @@ from users.authFunctions import *
 class YieldView(APIView):
 
     #Add yield
-    def post(self, request, idUser, idPaddock):
-        jwtUser, response, payload = validate_token(request)
-        if not jwtUser:
-            return response
+    def post(self, request, idUser, idPaddock, authed=False):
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
 
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -25,8 +28,6 @@ class YieldView(APIView):
         paddock = Paddock.objects.filter(id=idPaddock).first()
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
-
-        response = refresh_token(payload)
 
         try:
             yieldData = request.data['yield']
@@ -47,10 +48,14 @@ class YieldView(APIView):
 
 
     #Get Yields
-    def get(self, request, idUser, idPaddock):
-        jwtUser, response, payload = validate_token(request)
-        if not jwtUser:
-            return response
+    def get(self, request, idUser, idPaddock, authed=False):
+
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
         
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -61,7 +66,6 @@ class YieldView(APIView):
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response = refresh_token(payload)
         response.data = {}
         
         yields = Yield.objects.filter(paddock=paddock)
