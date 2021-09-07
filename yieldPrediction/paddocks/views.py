@@ -41,7 +41,7 @@ class PaddockView(APIView):
         paaddockObj = serializer.save(user=user)
 
 
-        # Call the model
+        # Call the yield prediction model
 
         response.data = {"paddock" : serializer.data}
         return response

@@ -8,5 +8,5 @@ class Paddock(models.Model):
     name = models.CharField(max_length=128)
     size_ha = models.IntegerField()
     rowSpacing_cm = models.FloatField()
-    cropParameters = models.CharField(max_length=512)
-    postCode = models.IntegerField()
+    cropParameters = models.CharField(max_length=512, default="exampleParam-12:")
+    postCode = models.IntegerField(default=4103)

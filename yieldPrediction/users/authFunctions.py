@@ -57,10 +57,10 @@ def refresh_token(payload):
     """
     response = Response()
 
-    if payload['exp'] - payload['iat'] < 10:
+    if payload['exp'] - payload['iat'] < 15:
         payload = {
             'id': payload['id'],
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=20),
             'iat': datetime.datetime.utcnow()
         }
 
