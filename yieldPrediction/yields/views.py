@@ -29,8 +29,6 @@ class YieldView(APIView):
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response = refresh_token(payload)
-
         try:
             yieldData = request.data['yield']
         except:
@@ -68,7 +66,6 @@ class YieldView(APIView):
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response = refresh_token(payload)
         response.data = {}
         
         yields = Yield.objects.filter(paddock=paddock)

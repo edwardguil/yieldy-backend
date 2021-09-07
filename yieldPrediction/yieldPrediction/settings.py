@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'paddocks.apps.PaddocksConfig',
     'users.apps.UsersConfig',
     'yields.apps.YieldsConfig',
+    'crops.apps.CropsConfig',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +66,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [
+            'context_processors': [  
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -83,8 +84,12 @@ WSGI_APPLICATION = 'yieldPrediction.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -139,3 +144,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Allows cookies too be returned to front-end
 CORS_ALLOW_CREDENTIALS = True
+
+#Silence url warning
+SILENCED_SYSTEM_CHECKS = ["urls.W002"]

@@ -1,11 +1,11 @@
-from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PaddockSerializer
-from .models import Crop, Paddock
+from .models import Paddock
 from users.authFunctions import *
+from yields.models import Yield
+from yields.yieldModels.BasicModel import basicModel
 
 
 
@@ -26,21 +26,23 @@ class PaddockView(APIView):
         if user is None:
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        if not authed:
-            response = refresh_token(payload)
-
         try:
             paddock = request.data['paddock']
         except:
             return error_response('Bad Request', 'Missing paddock', 
                                     status.HTTP_400_BAD_REQUEST)
 
+        #cropParameters = request.data.get('paddock').pop("cropParameters")
         serializer = PaddockSerializer(data=request.data.get('paddock'))
-        if not serializer.is_valid():
+        if not serializer.is_valid(raise_exception=True):
             return error_response('Bad Request', 'Check crop exists and valid data types', 
                                     status.HTTP_400_BAD_REQUEST)
 
-        serializer.save(user=user)
+        paaddockObj = serializer.save(user=user)
+
+
+        # Call the model
+
         response.data = {"paddock" : serializer.data}
         return response
 
@@ -58,7 +60,6 @@ class PaddockView(APIView):
         if user is None:
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response = refresh_token(payload)
         response.data = {}
         
         paddocks = Paddock.objects.filter(user=user)

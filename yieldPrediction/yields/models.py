@@ -1,7 +1,6 @@
 from django.db import models
 from yieldPrediction.settings import AUTH_USER_MODEL
 from paddocks.models import Paddock
-from yieldModels import BasicModel
 # Create your models here.
 
 class Yield(models.Model):
