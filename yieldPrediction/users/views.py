@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import serializers, status
 from .serializers import UserSerializer
 from .models import User
 from .authFunctions import *
@@ -82,4 +82,22 @@ class GetUserView(APIView):
         #response.data = {"user" : serializer.data} ++ ADD WHEN WE STOP PASSING JWT TO FRONTEND
         ## --
 
+        return response
+
+    def put(self, request, idUser, authed=False):
+        if not authed:
+            jwtUser, response, payload = validate_token(request)
+            if not jwtUser:
+                return response
+        else:
+            response = Response()
+        
+        user = User.objects.filter(id=idUser).first()
+        if user is None:
+            return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
+
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid()
+        serializer.save()
+        response.data = {'user' : serializer.data}
         return response
