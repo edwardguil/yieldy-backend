@@ -84,7 +84,7 @@ class GetUserView(APIView):
 
         return response
 
-    def put(self, request, idUser, authed=False):
+    def patch(self, request, idUser, authed=False):
         if not authed:
             jwtUser, response, payload = validate_token(request)
             if not jwtUser:
