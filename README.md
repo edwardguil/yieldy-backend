@@ -5,7 +5,7 @@ The official git repo for our group project
 # Installation
 1) Clone the repo
 2) Create a conda env based off the requirements.txt file AND activate
-3) Cd to to parent yieldPredictions"python manage.py runserver"
+3) Cd to to parent yieldPredictions and type "python runserver.py". 
 4) Go to webaddress listed
 
 
