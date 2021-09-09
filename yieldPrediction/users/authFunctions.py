@@ -35,14 +35,15 @@ def validate_token(request):
     if not token:
         response = error_response('Unauthorized', 'No JWT in cookie. Please login.', 
                                     status.HTTP_401_UNAUTHORIZED)
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-    except:
-        response = error_response('Unauthorized', 'Expired JWT. Please login.', 
-                                    status.HTTP_401_UNAUTHORIZED)
     else:
-        user = User.objects.filter(id=payload['id']).first()
-        response = refresh_token(payload)
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        except:
+            response = error_response('Unauthorized', 'Expired JWT. Please login.', 
+                                        status.HTTP_401_UNAUTHORIZED)
+        else:
+            user = User.objects.filter(id=payload['id']).first()
+            response = refresh_token(payload)
 
     return user, response, payload
 
