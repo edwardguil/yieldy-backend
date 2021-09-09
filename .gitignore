@@ -1,6 +1,3 @@
 *.pyc
-<<<<<<< HEAD
 __pycache__
-=======
-__pycache__
->>>>>>> testsOnline
+yieldPrediction/db.sqlite3
