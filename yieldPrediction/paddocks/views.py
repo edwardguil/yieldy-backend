@@ -30,17 +30,14 @@ class PaddockView(APIView):
             return error_response('Bad Request', 'Missing paddock', 
                                     status.HTTP_400_BAD_REQUEST)
 
-        #cropParameters = request.data.get('paddock').pop("cropParameters")
         serializer = PaddockSerializer(data=request.data.get('paddock'))
         if not serializer.is_valid(raise_exception=True):
             return error_response('Bad Request', 'Check crop exists and valid data types', 
                                     status.HTTP_400_BAD_REQUEST)
 
         paaddockObj = serializer.save(user=user)
-
-
         # Call the yield prediction model
-
+        
         response.data = {"paddock" : serializer.data}
         return response
 

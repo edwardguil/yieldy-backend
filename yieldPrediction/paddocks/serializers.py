@@ -16,7 +16,6 @@ class PaddockSerializer(serializers.ModelSerializer):
         temp = {}
         if instance.cropType.cropParameters != None:
                 requiredParameters = instance.cropType.cropParameters.split(":")
-                print(requiredParameters)
                 givenParameters = instance.cropParameters.split(':')[:-1]
                 for parameter in givenParameters:
                     key,value = parameter.split('-')
