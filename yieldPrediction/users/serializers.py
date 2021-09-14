@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # Specific the model attributes needed for serialization
-        fields = ['id', 'email', 'password']
+        fields = ['id', 'email', 'password', 'firstName', 'lastName']
         # Prevents password from being read
         extra_kwargs = {
             'password': {'write_only': True}
@@ -38,9 +38,16 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         email = validated_data.get('email')
         password = validated_data.get('password')
+        firstName = validated_data.get('firstName')
+        lastName = validated_data.get('lastName')
+
         if email is not None:
             instance.email = email 
         if password is not None:
             instance.set_password(password)
+        if firstName is not None:
+            instance.firstName = firstName
+        if lastName is not None:
+            instance.lastName = lastName
         instance.save()
         return instance

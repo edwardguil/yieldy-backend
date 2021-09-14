@@ -4,10 +4,7 @@ from .serializers import UserSerializer
 from .models import User
 from .authFunctions import *
 
-## Remove once we stop passing JWT too front end
-AUTH_DATA = {'jsonWebToken' : 'definitely_a_web_token'}
-
-class UserView(APIView):
+class LoginUserView(APIView):
     """A View used for the endpoint /user/"""
 
     def post(self, request):
@@ -18,6 +15,7 @@ class UserView(APIView):
         Returns:
             rest_framework.Response: A response containing user data & JWT token (via cookie).  
         """
+        # Checking request
         try:
             email = request.data['email']
             password = request.data['password']
@@ -25,27 +23,48 @@ class UserView(APIView):
             return error_response('Bad Request', 'Email or password missing', status.HTTP_400_BAD_REQUEST)
         
         user = User.objects.filter(email=email).first()
+        if user is None:
+            return error_response("Bad Request", "No user with that email", status.HTTP_400_BAD_REQUEST)
         
-        if user is None: #If user hasn't registered, register the user
-            serializer = UserSerializer(data=request.data)
-            try:
-                serializer.is_valid(raise_exception=True)
-            except Exception as e: 
-                return error_response('Bad Request', 'Email invalid', status.HTTP_400_BAD_REQUEST)
-            serializer.save()
-        else:
-            if not user.check_password(password):
-                return error_response('Unauthorized', 'Incorrect password', status.HTTP_401_UNAUTHORIZED)
-
-        user = User.objects.filter(email=email).first()
-        response = refresh_token(payload = {'id' : user.id, 'exp' : 0, 'iat' : 0})
         serializer = UserSerializer(user)
+        if not user.check_password(password):
+            return error_response('Unauthorized', 'Incorrect password', status.HTTP_401_UNAUTHORIZED)
 
-        ## -- REMOVE WHEN WE STOP PASSING JWT TO FRONTEND!!!!!!!!!!!!!!!!!
-        response.data = {'user' : {'id' : user.id, 'email' : user.email, 'authData' : AUTH_DATA}}
-        #response.data = {"user" : serializer.data} ++ ADD WHEN WE STOP PASSING JWT TO FRONTEND
-        ## --
+        # Generating Response
+        response = Response()
+        jsonWebToken = refresh_token(payload = {'id' : user.id, 'exp' : 0, 'iat' : 0})
+        response.data = {'user' : serializer.data, 'authData':jsonWebToken}
         response.status_code = 202
+
+        return response
+
+class RegisterUserView(APIView):
+    
+    def post(self, request):
+        """
+        try:
+            email = request.data['email']
+            password = request.data['password']
+        except:
+            return error_response('Bad Request', 'Email or password missing', status.HTTP_400_BAD_REQUEST)
+        """
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data.get("email")
+        user = User.objects.filter(email=email).first()
+
+        if user is None: #If user hasn't registered, register the user
+            user = serializer.save()
+        else:
+            return error_response('Bad Request', 'User with that email already exists', status.HTTP_400_BAD_REQUEST)
+        
+        serializer = UserSerializer(user)
+        
+        # Generating Response
+        response = Response()
+        response.data = {'user' : serializer.data}
+        response.status_code = 202
+
         return response
 
 
@@ -64,11 +83,11 @@ class GetUserView(APIView):
             rest_framework.Response: A response containing user data & JWT token (via cookie). 
         """
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
 
         ## The User specificied from the slug
         user = User.objects.filter(id=idUser).first()
@@ -76,28 +95,26 @@ class GetUserView(APIView):
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         serializer = UserSerializer(user)
-
-        ## -- REMOVE WHEN WE STOP PASSING JWT TO FRONTEND!!!!!!!!!!!!!!!!!
-        response.data = {'user' : {'id' : user.id, 'email' : user.email, 'authData' : AUTH_DATA}}
-        #response.data = {"user" : serializer.data} ++ ADD WHEN WE STOP PASSING JWT TO FRONTEND
-        ## --
+        response.data = {'user' : serializer.data, "authData" : jsonWebToken}
 
         return response
 
     def patch(self, request, idUser, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
-        
+        response = Response()
+
         user = User.objects.filter(id=idUser).first()
         if user is None:
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         serializer = UserSerializer(user, data=request.data, partial=True)
         serializer.is_valid()
-        serializer.save()
+        user = serializer.save()
+
+        serializer = UserSerializer(user)
         response.data = {'user' : serializer.data}
+
         return response

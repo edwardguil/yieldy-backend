@@ -6,8 +6,6 @@ from .serializers import YieldSerializer
 from .models import Yield
 from users.authFunctions import *
 
-
-
 # Create your views here.
 class YieldView(APIView):
 

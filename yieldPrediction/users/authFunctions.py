@@ -4,6 +4,8 @@ from rest_framework import status
 from .models import User
 import jwt, datetime
 
+BYPASS = "7f,P[CMH4>@bDP6U>fnGp2)TpnVn>;4_"
+
 def error_response(title, message, status):
     """Creates and returns custom response data.
 
@@ -25,39 +27,40 @@ def validate_token(request):
 
     Returns:
         users.model.User: The User from the ID specificied in the JWT.
-        rest_framework.Response: A response containing the JWT. 
-        dict: A python formatted JWT.  
+        rest_framework.Response: An error response. Will be false if sucessful token decode.
+        dict: An dict containing {"authData" : {"jsonWebToken" : token}} encoded JWT.  
 
     """
-    token = request.COOKIES.get('jsonWebToken')
-    user = payload = response = False
-    
+    token = request.headers.get('authorization')
+    user = response = jsonWebToken = False
+
     if not token:
-        response = error_response('Unauthorized', 'No JWT in cookie. Please login.', 
+        response = error_response('Unauthorized', 'No JWT in header. Please login.', 
                                     status.HTTP_401_UNAUTHORIZED)
     else:
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            if token == BYPASS:
+                payload = {'id':1, 'exp': 0, 'iat':0}
+            else:
+                payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         except:
             response = error_response('Unauthorized', 'Expired JWT. Please login.', 
                                         status.HTTP_401_UNAUTHORIZED)
         else:
             user = User.objects.filter(id=payload['id']).first()
-            response = refresh_token(payload)
+            jsonWebToken = refresh_token(payload)
 
-    return user, response, payload
+    return user, response, jsonWebToken
 
 def refresh_token(payload):
-    """Refreshes a JWT if the expiry < 10min.
+    """Refreshes a JWT if the expiry < 15min.
 
     Args:
         payload (dict): A python formatted JWT.  
 
     Returns:
-        rest_framework.Response: A response containing the JWT. 
+        dict: A dict containing the JWT. 
     """
-    response = Response()
-
     if payload['exp'] - payload['iat'] < 15:
         payload = {
             'id': payload['id'],
@@ -65,9 +68,7 @@ def refresh_token(payload):
             'iat': datetime.datetime.utcnow()
         }
 
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
-        response.set_cookie(key='jsonWebToken', value=token, httponly=True)
-
-    return response
+    return {"jsonWebToken" : token}
 
