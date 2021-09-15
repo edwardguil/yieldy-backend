@@ -41,7 +41,9 @@ class YieldView(APIView):
 
 
         serializer.save(paddock=paddock)
-        response.data = {"yield" : serializer.data, "authData" : jsonWebToken}
+        response.data = {"yield" : serializer.data}
+        response.headers['authorization'] = jsonWebToken
+
         return response
 
 
@@ -70,6 +72,7 @@ class YieldView(APIView):
         for yieldX in yields:
             serializer = YieldSerializer(yieldX)
             yield_list.append(serializer.data)
-        response.data = {"yields" : yield_list, "authData" : jsonWebToken}
+        response.data = {"yields" : yield_list}
+        response.headers['authorization'] = jsonWebToken
 
         return response

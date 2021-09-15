@@ -70,5 +70,5 @@ def refresh_token(payload):
 
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
-    return {"jsonWebToken" : token}
+    return token
 

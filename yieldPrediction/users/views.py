@@ -33,7 +33,8 @@ class LoginUserView(APIView):
         # Generating Response
         response = Response()
         jsonWebToken = refresh_token(payload = {'id' : user.id, 'exp' : 0, 'iat' : 0})
-        response.data = {'user' : serializer.data, 'authData':jsonWebToken}
+        response.data = {'user' : serializer.data}
+        response.headers['authorization'] = jsonWebToken
         response.status_code = 202
 
         return response
@@ -48,9 +49,6 @@ class RegisterUserView(APIView):
         except:
             return error_response('Bad Request', 'Email or password missing', status.HTTP_400_BAD_REQUEST)
         """
-        
-        print(request.data)
-
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get("email")
@@ -98,7 +96,8 @@ class GetUserView(APIView):
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         serializer = UserSerializer(user)
-        response.data = {'user' : serializer.data, "authData" : jsonWebToken}
+        response.data = {'user' : serializer.data}
+        response.headers['authorization'] = jsonWebToken
 
         return response
 
@@ -118,7 +117,8 @@ class GetUserView(APIView):
         user = serializer.save()
 
         serializer = UserSerializer(user)
-        response.data = {'user' : serializer.data, 'authData' : jsonWebToken}
+        response.data = {'user' : serializer.data}
+        response.headers['authorization'] = jsonWebToken
 
         return response
 
@@ -133,7 +133,8 @@ class GetUserView(APIView):
         if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        response.data = {"authData" : jsonWebToken}
+        #response.data = {"authData" : jsonWebToken}
+        response.headers['authorization'] = jsonWebToken
 
         return response
 
