@@ -12,11 +12,11 @@ class YieldView(APIView):
     #Add yield
     def post(self, request, idUser, idPaddock, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
 
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -41,7 +41,7 @@ class YieldView(APIView):
 
 
         serializer.save(paddock=paddock)
-        response.data = {"yield" : serializer.data}
+        response.data = {"yield" : serializer.data, "authData" : jsonWebToken}
         return response
 
 
@@ -49,11 +49,11 @@ class YieldView(APIView):
     def get(self, request, idUser, idPaddock, authed=False):
 
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
         
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -63,8 +63,6 @@ class YieldView(APIView):
         paddock = Paddock.objects.filter(id=idPaddock).first()
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
-
-        response.data = {}
         
         yields = Yield.objects.filter(paddock=paddock)
 
@@ -72,6 +70,6 @@ class YieldView(APIView):
         for yieldX in yields:
             serializer = YieldSerializer(yieldX)
             yield_list.append(serializer.data)
-        response.data = {"yields" : yield_list}
+        response.data = {"yields" : yield_list, "authData" : jsonWebToken}
 
         return response

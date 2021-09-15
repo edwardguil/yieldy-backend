@@ -1,3 +1,4 @@
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,11 +14,11 @@ class PaddockView(APIView):
     #Add paddock
     def post(self, request, idUser, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
 
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -38,17 +39,17 @@ class PaddockView(APIView):
         paaddockObj = serializer.save(user=user)
         # Call the yield prediction model
         
-        response.data = {"paddock" : serializer.data}
+        response.data = {"paddock" : serializer.data, "authData" : jsonWebToken}
         return response
 
     #Get Paddock Details
     def get(self, request, idUser, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
         
         ## The USER ID on the url path NOT jwt
         user = User.objects.filter(id=idUser).first()
@@ -63,7 +64,7 @@ class PaddockView(APIView):
         for paddock in paddocks:
             serializer = PaddockSerializer(paddock)
             paddock_list.append(serializer.data)
-        response.data = {"paddocks" : paddock_list}
+        response.data = {"paddocks" : paddock_list, "authData" : jsonWebToken}
 
         return response
 
@@ -71,14 +72,16 @@ class DeletePaddockView(APIView):
 
     def delete(self, request, idUser, idPaddock, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
         
         result = Paddock.objects.filter(id=idPaddock).delete()
         if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
+
+        response.data = {"authData" : jsonWebToken}
 
         return response

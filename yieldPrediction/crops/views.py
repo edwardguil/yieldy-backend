@@ -9,11 +9,11 @@ class CropView(APIView):
 
     def get(self, request, authed=False):
         if not authed:
-            jwtUser, response, payload = validate_token(request)
-            if not jwtUser:
+            jwtUser, response, jsonWebToken = validate_token(request)
+            if response != False:
                 return response
-        else:
-            response = Response()
+
+        response = Response()
         
         response.data = {}
         
@@ -23,6 +23,6 @@ class CropView(APIView):
         for crop in crops:
             serializer = CropSerializer(crop)
             crop_list.append(serializer.data)
-        response.data = {"crops" : crop_list}
+        response.data = {"crops" : crop_list, "authData" : jsonWebToken}
 
         return response
