@@ -23,7 +23,5 @@ class CropView(APIView):
         for crop in crops:
             serializer = CropSerializer(crop)
             crop_list.append(serializer.data)
-        response.data = {"crops" : crop_list}
-        response.headers['authorization'] = jsonWebToken
-
+        response.data = {"crops" : crop_list, "auth" : { "jsonWebToken" : jsonWebToken}}
         return response

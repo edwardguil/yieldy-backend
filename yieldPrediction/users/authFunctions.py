@@ -64,7 +64,7 @@ def refresh_token(payload):
     if payload['exp'] - payload['iat'] < 15:
         payload = {
             'id': payload['id'],
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1000000),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100000000),
             'iat': datetime.datetime.utcnow()
         }
 

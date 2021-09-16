@@ -35,14 +35,11 @@ class YieldView(APIView):
 
         serializer = YieldSerializer(data=yieldData)
         if not serializer.is_valid():
-            return error_response('Bad Request', 'Check paddock exists and valid data.', 
+            return error_response('Bad Request', 'Data is not valid data.', 
                                     status.HTTP_400_BAD_REQUEST)
 
-
-
         serializer.save(paddock=paddock)
-        response.data = {"yield" : serializer.data}
-        response.headers['authorization'] = jsonWebToken
+        response.data = {"yield" : serializer.data, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response
 
@@ -72,7 +69,6 @@ class YieldView(APIView):
         for yieldX in yields:
             serializer = YieldSerializer(yieldX)
             yield_list.append(serializer.data)
-        response.data = {"yields" : yield_list}
-        response.headers['authorization'] = jsonWebToken
+        response.data = {"yields" : yield_list, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response

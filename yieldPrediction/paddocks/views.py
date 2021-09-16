@@ -37,10 +37,12 @@ class PaddockView(APIView):
                                     status.HTTP_400_BAD_REQUEST)
 
         paaddockObj = serializer.save(user=user)
+        # +++++++++++++++++++++++++++++++++++++++++++
+        
         # Call the yield prediction model
         
-        response.data = {"paddock" : serializer.data}
-        response.headers['authorization'] = jsonWebToken
+        # +++++++++++++++++++++++++++++++++++++++++++
+        response.data = {"paddock" : serializer.data, "auth" : { "jsonWebToken" : jsonWebToken}}
         return response
 
     #Get Paddock Details
@@ -65,9 +67,7 @@ class PaddockView(APIView):
         for paddock in paddocks:
             serializer = PaddockSerializer(paddock)
             paddock_list.append(serializer.data)
-        response.data = {"paddocks" : paddock_list}
-        response.headers['authorization'] = jsonWebToken
-
+        response.data = {"paddocks" : paddock_list, "auth" : { "jsonWebToken" : jsonWebToken}}
         return response
 
 class DeletePaddockView(APIView):
@@ -84,7 +84,5 @@ class DeletePaddockView(APIView):
         if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        #response.data = {"authData" : jsonWebToken}
-        response.headers['authorization'] = jsonWebToken
-
+        response.data = {"auth" : { "jsonWebToken" : jsonWebToken}}
         return response

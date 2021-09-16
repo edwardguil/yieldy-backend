@@ -5,14 +5,15 @@ from crops.models import Crop
 from json import dumps
 
 class PaddockSerializer(serializers.ModelSerializer):
-    cropParameters = serializers.JSONField()
+    #cropParameters = serializers.JSONField()
 
     class Meta:
         model = Paddock
-        #fields = ['id', 'user', 'name', 'cropType', 'cropParameters', 'size_ha', 'rowSpacing_cm', 'postCode' ]
         exclude = ['user']
     
     """
+    #Dynamic Post Requests  - Required If We Stop Hardcoding
+
     def to_representation(self, instance : Paddock):
         temp = {}
         if instance.cropType.cropParameters != None:

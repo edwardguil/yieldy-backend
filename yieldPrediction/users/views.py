@@ -5,7 +5,7 @@ from .serializers import UserSerializer
 from .models import User
 from .authFunctions import *
 
-class LoginUserView(APIView):
+class UserView(APIView):
     """A View used for the endpoint /user/"""
 
     def post(self, request):
@@ -37,32 +37,8 @@ class LoginUserView(APIView):
         response = Response()
         jsonWebToken = refresh_token(payload = {'id' : user.id, 'exp' : 0, 'iat' : 0})
         response.data = {'user' : serializer.data, 'auth' : {"jsonWebToken" : jsonWebToken}}
-        response.status_code = 202
-        
-        return response
-
-class RegisterUserView(APIView):
     
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data.get("email")
-        user = User.objects.filter(email=email).first()
-
-        if user is None: #If user hasn't registered, register the user
-            user = serializer.save()
-        else:
-            return error_response('Bad Request', 'User with that email already exists', status.HTTP_400_BAD_REQUEST)
-        
-        serializer = UserSerializer(user)
-        
-        # Generating Response
-        response = Response()
-        response.data = {'user' : serializer.data}
-        response.status_code = 202
-
         return response
-
 
 class GetUserView(APIView):
     """A View for the endpoint /user/<int:idUser>"""
@@ -91,9 +67,7 @@ class GetUserView(APIView):
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         serializer = UserSerializer(user)
-        response.data = {'user' : serializer.data}
-        response.headers['authorization'] = jsonWebToken
-
+        response.data = {'user' : serializer.data, "auth" : { "jsonWebToken" : jsonWebToken}}
         return response
 
     def patch(self, request, idUser, authed=False):
@@ -112,9 +86,7 @@ class GetUserView(APIView):
         user = serializer.save()
 
         serializer = UserSerializer(user)
-        response.data = {'user' : serializer.data}
-        response.headers['authorization'] = jsonWebToken
-
+        response.data = {'user' : serializer.data, "auth" : { "jsonWebToken" : jsonWebToken}}
         return response
 
     def delete(self, request, idUser, authed=False):
@@ -128,8 +100,7 @@ class GetUserView(APIView):
         if result[0] == 0: ##NEED TO CHECK TO SEE WHAT DELETE RETURNS
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
-        #response.data = {"authData" : jsonWebToken}
-        response.headers['authorization'] = jsonWebToken
+        response.data = {"authData" : jsonWebToken, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response
 
