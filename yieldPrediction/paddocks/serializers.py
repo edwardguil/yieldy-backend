@@ -12,6 +12,7 @@ class PaddockSerializer(serializers.ModelSerializer):
         #fields = ['id', 'user', 'name', 'cropType', 'cropParameters', 'size_ha', 'rowSpacing_cm', 'postCode' ]
         exclude = ['user']
     
+    """
     def to_representation(self, instance : Paddock):
         temp = {}
         if instance.cropType.cropParameters != None:
@@ -33,6 +34,7 @@ class PaddockSerializer(serializers.ModelSerializer):
             internal_string += f"{str(key)}-{str(value)}:"
         ret['cropParameters'] = internal_string
         return ret
+    """
 
     def get_paddocks(self, id):
         paddocks = Paddock.objects.filter(id)

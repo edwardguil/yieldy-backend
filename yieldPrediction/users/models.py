@@ -64,8 +64,8 @@ class CustomAccountManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """A custom User class. Overrides existing django User class. """
     email = models.EmailField(('email address'), unique=True)
-    firstName = models.CharField(max_length=64)
-    lastName = models.CharField(max_length=64)
+    firstName = models.CharField(max_length=64, default = "")
+    lastName = models.CharField(max_length=64, default = "")
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
