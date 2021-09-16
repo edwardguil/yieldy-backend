@@ -17,9 +17,15 @@ The official git repo for our group project
 
 # Installation
 1) Clone the repo
-2) Create a conda env based off the requirements.txt file AND activate
-3) Cd to to parent yieldPredictions and type "python runserver.py". 
-4) Go to webaddress listed
+2) Open Anaconda Prompt
+3) CD to requirements folder
+4) Enter the following commands:
+    - conda create --name backendEnv --file condaRequirements.txt 
+        - Note: Type yes when prompted
+    - conda activate backendEnv
+    - pip install -r pipRequirements.txt
+5) Cd to to parent and type "python runserver.py". 
+6) Go to webaddress listed
 
 
 # Quick Overview On Django:
