@@ -3,7 +3,7 @@ from .models import Paddock
 
 # Register your models here.
 class PaddockAdminModel(admin.ModelAdmin):
-	list_display = ['id', 'user', 'cropType', 'cropParameters', 'size_ha', 'rowSpacing_cm', 
+	list_display = ['id', 'user', 'cropType', 'rowSpacing_cm', 'grainsPerHead', 'size_ha', 'rowSpacing_cm', 
                     'postCode']
 
 admin.site.register(Paddock, PaddockAdminModel)
