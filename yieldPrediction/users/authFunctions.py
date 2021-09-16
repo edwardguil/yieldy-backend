@@ -31,7 +31,7 @@ def validate_token(request):
         dict: An dict containing {"authData" : {"jsonWebToken" : token}} encoded JWT.  
 
     """
-    token = request.data.get('auth').get("jsonWebToken")
+    token = request.headers.get('auth')
     user = response = jsonWebToken = False
 
     if not token:
