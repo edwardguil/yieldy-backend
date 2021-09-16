@@ -1,3 +1,4 @@
+import json
 from rest_framework.views import APIView
 from rest_framework import serializers, status
 from .serializers import UserSerializer
@@ -24,8 +25,10 @@ class LoginUserView(APIView):
         
         user = User.objects.filter(email=email).first()
         if user is None:
-            return error_response("Bad Request", "No user with that email", status.HTTP_400_BAD_REQUEST)
-        
+            serializer = UserSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            
         serializer = UserSerializer(user)
         if not user.check_password(password):
             return error_response('Unauthorized', 'Incorrect password', status.HTTP_401_UNAUTHORIZED)
@@ -33,22 +36,14 @@ class LoginUserView(APIView):
         # Generating Response
         response = Response()
         jsonWebToken = refresh_token(payload = {'id' : user.id, 'exp' : 0, 'iat' : 0})
-        response.data = {'user' : serializer.data}
-        response.headers['authorization'] = jsonWebToken
+        response.data = {'user' : serializer.data, 'auth' : {"jsonWebToken" : jsonWebToken}}
         response.status_code = 202
-
+        
         return response
 
 class RegisterUserView(APIView):
     
     def post(self, request):
-        """
-        try:
-            email = request.data['email']
-            password = request.data['password']
-        except:
-            return error_response('Bad Request', 'Email or password missing', status.HTTP_400_BAD_REQUEST)
-        """
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get("email")
