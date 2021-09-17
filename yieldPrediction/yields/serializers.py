@@ -4,4 +4,4 @@ from .models import Yield
 class YieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Yield
-        fields = ['id', 'harvest', 'date', 'paddock']
+        fields = ['id', 'harvest_t', 'date', 'paddockId']

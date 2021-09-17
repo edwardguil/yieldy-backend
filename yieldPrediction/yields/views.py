@@ -29,16 +29,15 @@ class YieldView(APIView):
 
         try:
             yieldData = request.data['yield']
+            yieldData['paddockId'] = paddock.pk
         except:
             return error_response('Bad Request', 'Missing yield', 
                                     status.HTTP_400_BAD_REQUEST)
 
         serializer = YieldSerializer(data=yieldData)
-        if not serializer.is_valid():
-            return error_response('Bad Request', 'Data is not valid data.', 
-                                    status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(paddockId=paddock)
 
-        serializer.save(paddock=paddock)
         response.data = {"yield" : serializer.data, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response
@@ -63,7 +62,7 @@ class YieldView(APIView):
         if paddock is None:
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
         
-        yields = Yield.objects.filter(paddock=paddock)
+        yields = Yield.objects.filter(paddockId=paddock)
 
         yield_list = []
         for yieldX in yields:

@@ -82,7 +82,7 @@ class GetUserView(APIView):
             return error_response('Bad ID', 'That user ID does not exist', status.HTTP_404_NOT_FOUND)
 
         serializer = UserSerializer(user, data=request.data, partial=True)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
         serializer = UserSerializer(user)
