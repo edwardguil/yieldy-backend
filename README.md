@@ -6,10 +6,8 @@ Please select a fix:
  1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
  2) Quit, and let me add a default in models.py" 
 ```
-Please either:
-1) Pull into new dir. 
-2) Delete everything in 'migrations' folders except __init__.py 
-
+Clear all the auto-generated files (which have been added to the `.gitignore`)
+by running `git clean -x -d -f`.
 
 # Enter Your Answer - Project: Thunder Cats
 
