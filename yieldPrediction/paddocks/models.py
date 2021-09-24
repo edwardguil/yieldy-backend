@@ -9,5 +9,5 @@ class Paddock(models.Model):
     size_ha = models.FloatField()
     rowSpacing_cm = models.FloatField()
     grainsPerHead = models.FloatField()
-    headsPerM2 = models.FloatField()
+    grainHeads_pm2 = models.FloatField()
     postCode = models.CharField(max_length=4)
