@@ -6,7 +6,6 @@ from .serializers import PaddockSerializer
 from .models import Paddock
 from users.authFunctions import *
 from yields.models import Yield
-from yields.yieldModels.BasicModel import basicModel
 
 # Create your views here.
 class PaddockView(APIView):

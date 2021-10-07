@@ -71,18 +71,4 @@ class YieldView(APIView):
         response.data = {"yields" : yield_list, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response
-
-class PredictionView(APIView):
-
-    def get(self, request, idUser, idPaddock, authed=False):
-        if not authed:
-            jwtUser, response, jsonWebToken = validate_token(request)
-            if response != False:
-                return response
-
-        response = Response()
-
-        return response
-        ## CALL SPECIAL MODEL YAY ###
-
         

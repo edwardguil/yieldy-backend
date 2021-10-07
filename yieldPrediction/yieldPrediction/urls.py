@@ -22,4 +22,5 @@ urlpatterns = [
     path('crops', include('crops.urls')),
     path('user/<int:idUser>/paddocks', include('paddocks.urls')),
     path('user/<int:idUser>/paddocks/<int:idPaddock>/yields', include('yields.urls')),
+    path('user/<int:idUser>/paddocks/<int:idPaddock>/prediction', include('predictions.urls')),
 ]
