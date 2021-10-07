@@ -1,41 +1,12 @@
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
 from .models import Paddock
-from crops.models import Crop
-from json import dumps
 
 class PaddockSerializer(serializers.ModelSerializer):
-    #cropParameters = serializers.JSONField()
-
+    
     class Meta:
         model = Paddock
         exclude = ['user']
-    
-    """
-    #Dynamic Post Requests  - Required If We Stop Hardcoding
-
-    def to_representation(self, instance : Paddock):
-        temp = {}
-        if instance.cropType.cropParameters != None:
-                requiredParameters = instance.cropType.cropParameters.split(":")
-                givenParameters = instance.cropParameters.split(':')[:-1]
-                for parameter in givenParameters:
-                    key,value = parameter.split('-')
-                    if key not in requiredParameters:
-                        raise NotFound(f'{key} does not belong too {instance.cropType.cropType}')
-                    temp.update({key : int(value)})
-
-        instance.cropParameters = temp
-        return super(PaddockSerializer, self).to_representation(instance)
-
-    def to_internal_value(self, data):
-        ret = super(PaddockSerializer, self).to_internal_value(data)
-        internal_string = ""
-        for key,value in ret['cropParameters'].items():
-            internal_string += f"{str(key)}-{str(value)}:"
-        ret['cropParameters'] = internal_string
-        return ret
-    """
 
     def get_paddocks(self, id):
         paddocks = Paddock.objects.filter(id)

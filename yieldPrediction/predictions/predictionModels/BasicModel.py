@@ -43,8 +43,10 @@ grainWeight = [
 # Mapping from Crop -> K
 cropKValue = {"Wheat" : 5, "Oat" : 7, "Barley" : 9, "Lupin" : 12, "Chickpea" : 13, "Faba Bean" : 15}        
 
-def basicModel(grainsPerHead, headsPerM2, cropType):
-    headsPer50cm = (headsPerM2**1/2)/2
+rowSpacing_cm = 0
+
+def basicModel(grainsPerHead, headsPerM2, cropType, rowSpacing_cm, size_ha):
+    headsPer50cm = headsPerM2/rowSpacing_cm/200
     index = cropKValue.get(cropType)
     if index is None:
         index = [-1]
@@ -53,6 +55,6 @@ def basicModel(grainsPerHead, headsPerM2, cropType):
     # Calculate row compenstation
     rowCompensation = 1.0
 
-    prediction = ((grainsPerHead*headsPer50cm)/K) * rowCompensation
+    prediction = (((grainsPerHead*headsPer50cm)/K) * rowCompensation) * size_ha
     return prediction*.90, prediction*1.10
 

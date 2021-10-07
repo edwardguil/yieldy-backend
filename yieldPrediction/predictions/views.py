@@ -1,4 +1,3 @@
-import json
 from paddocks.models import Paddock
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -29,7 +28,8 @@ class PredictionView(APIView):
 
         instance = PredictionBasic.objects.filter(paddockId=paddock).first()
         if instance is None:
-            min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, paddock.cropType)
+            min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, 
+                                    paddock.cropType, paddock.rowSpacing_cm, paddock.size_ha)
             instance = PredictionBasic(user=user, paddockId=paddock, minHarvest_t=min, maxHarvest_t=max)
             instance.save()
         
