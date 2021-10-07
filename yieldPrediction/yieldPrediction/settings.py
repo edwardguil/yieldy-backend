@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'paddocks.apps.PaddocksConfig',
     'users.apps.UsersConfig',
     'yields.apps.YieldsConfig',
-    'crops.apps.CropsConfig',
+    'predictions.apps.PredictionsConfig',
 ]
 
 MIDDLEWARE = [

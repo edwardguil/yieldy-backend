@@ -71,3 +71,4 @@ class YieldView(APIView):
         response.data = {"yields" : yield_list, "auth" : { "jsonWebToken" : jsonWebToken}}
 
         return response
+        
