@@ -11,6 +11,17 @@ class YieldView(APIView):
 
     #Add yield
     def post(self, request, idUser, idPaddock, authed=False):
+        """Adds a new yield to the database.
+
+        Args:
+            request (dict): A python formatted http post request. 
+            idUser (int): the int representation of the slug from /users/<int:idUser>.
+            idPaddock (int): the int representation of the slug from .../paddocks/<int:idPaddock>
+            authed (bool): used for testing purposes - bypass JWT verification
+
+        Returns:
+            rest_framework.Response: A HTTP response containing json formatted yield data & JWT. 
+        """
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)
             if response != False:
@@ -43,8 +54,18 @@ class YieldView(APIView):
         return response
 
 
-    #Get Yields
     def get(self, request, idUser, idPaddock, authed=False):
+        """Gets an existing yield from the database.
+
+        Args:
+            request (dict): A python formatted http post request. 
+            idUser (int): the int representation of the slug from /users/<int:idUser>.
+            idPaddock (int): the int representation of the slug from .../paddocks/<int:idPaddock>
+            authed (bool): used for testing purposes - bypass JWT verification
+
+        Returns:
+            rest_framework.Response: A HTTP response containing json formatted yield data & JWT. 
+        """
 
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)

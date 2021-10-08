@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-fn%u!w+xlpzkt43zoh&jh69)wq^ogx)@$zd^*1+shfy%xrc#7n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Allowed HOSTS will need to be updated into production
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -51,7 +52,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
