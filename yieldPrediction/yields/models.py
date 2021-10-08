@@ -4,6 +4,7 @@ from paddocks.models import Paddock
 # Create your models here.
 
 class Yield(models.Model):
+    """A custom Django model. Used to store User previous yields"""
     user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     paddockId = models.ForeignKey(Paddock, on_delete=models.CASCADE)
     harvest_t = models.FloatField()

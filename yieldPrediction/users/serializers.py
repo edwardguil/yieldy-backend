@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from .models import User
 
-
-
 class UserSerializer(serializers.ModelSerializer):
     """A Serializer for user.models.User"""
 
     class Meta:
+        """Overrides existing Meta class to specify a model and its required fields"""
         model = User
         # Specific the model attributes needed for serialization
         fields = ['id', 'email', 'password', 'firstName', 'lastName']
@@ -36,6 +35,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
+        """Updates an existing Users information.
+
+        Overrites existing create function from ModelSerializer. This
+        is used indirectly via the serializer.save method.  
+        
+        Args:
+            instance (users.models.User): The User whos information needs to be updated.
+            validated_data (dict): Dictionary of user information. 
+
+        Returns:
+            users.models.User : The newly created User object. 
+        """
         email = validated_data.get('email')
         password = validated_data.get('password')
         firstName = validated_data.get('firstName')

@@ -20,7 +20,7 @@ def error_response(title, message, status):
     return Response({ 'error' : {'title': title, 'message' : message}}, status=status)
 
 def validate_token(request):
-    """Ensures JWT in Cookie is valid.
+    """Ensures JWT passed in headers is valid.
 
     Args:
         request (dict): A python formatted http request. 
@@ -28,7 +28,7 @@ def validate_token(request):
     Returns:
         users.model.User: The User from the ID specificied in the JWT.
         rest_framework.Response: An error response. Will be false if sucessful token decode.
-        dict: An dict containing {"authData" : {"jsonWebToken" : token}} encoded JWT.  
+        string: Represents a Json Web Token. Signed with the secret key from /settings.py
 
     """
     token = request.headers.get('Authorization')
@@ -56,15 +56,15 @@ def refresh_token(payload):
     """Refreshes a JWT if the expiry < 15min.
 
     Args:
-        payload (dict): A python formatted JWT.  
+        payload (dict): A python formatted JWT payload.  
 
     Returns:
-        dict: A dict containing the JWT. 
+        string: Represents a Json Web Token. Either will be original token or refreshed token. 
     """
     if payload['exp'] - payload['iat'] < 15:
         payload = {
             'id': payload['id'],
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100000000),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10**5),
             'iat': datetime.datetime.utcnow()
         }
 

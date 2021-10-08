@@ -1,6 +1,5 @@
-import json
 from rest_framework.views import APIView
-from rest_framework import serializers, status
+from rest_framework import status
 from .serializers import UserSerializer
 from .models import User
 from .authFunctions import *
@@ -9,12 +8,12 @@ class UserView(APIView):
     """A View used for the endpoint /user/"""
 
     def post(self, request):
-        """Creates (if necessary) and logins a User.
+        """Creates (if necessary) and login a User.
 
         Args:
             request (dict): A python formatted http post request. 
         Returns:
-            rest_framework.Response: A response containing user data & JWT token (via cookie).  
+            rest_framework.Response: A HTTP response containing json formatted user data & JWT.  
         """
         # Checking request
         try:
@@ -44,7 +43,7 @@ class GetUserView(APIView):
     """A View for the endpoint /user/<int:idUser>"""
 
     def get(self, request, idUser, authed=False):
-        """Returns user information.
+        """Returns user information specified by slug.
 
         Args:
             request (dict): A python formatted http post request. 
@@ -52,7 +51,7 @@ class GetUserView(APIView):
             authed (bool): used for testing purposes - bypass JWT verification
 
         Returns:
-            rest_framework.Response: A response containing user data & JWT token (via cookie). 
+            rest_framework.Response: A HTTP response containing json formatted user data & JWT. 
         """
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)
@@ -71,6 +70,16 @@ class GetUserView(APIView):
         return response
 
     def patch(self, request, idUser, authed=False):
+        """Updates user information and returns updated user specified by slug.
+
+        Args:
+            request (dict): A python formatted http post request. 
+            idUser (int): the int representation of the slug from /users/<int:idUser>.
+            authed (bool): used for testing purposes - bypass JWT verification
+
+        Returns:
+            rest_framework.Response: A HTTP response containing json formatted user data & JWT. 
+        """
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)
             if response != False:
@@ -90,6 +99,16 @@ class GetUserView(APIView):
         return response
 
     def delete(self, request, idUser, authed=False):
+        """Delets a user specified by slug.
+
+        Args:
+            request (dict): A python formatted http post request. 
+            idUser (int): the int representation of the slug from /users/<int:idUser>.
+            authed (bool): used for testing purposes - bypass JWT verification
+
+        Returns:
+            rest_framework.Response: A HTTP response containing json formatted user data & JWT. 
+        """
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)
             if response != False:
