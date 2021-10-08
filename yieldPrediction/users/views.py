@@ -24,6 +24,12 @@ class UserView(APIView):
         
         user = User.objects.filter(email=email).first()
         if user is None:
+            try:
+                firstName = request.data['firstName']
+                lastName = request.data['lastName']
+            except:
+                return error_response("Bad Request", "firstName and latName must be included for a sign up", status.HTTP_400_BAD_REQUEST)
+
             serializer = UserSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()

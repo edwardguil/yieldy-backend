@@ -18,12 +18,33 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"User Body\", () => {\r",
+											"pm.test(\"New User Not Created\", () => {\r",
 											"  const responseJson = pm.response.json();\r",
-											"  pm.expect(responseJson.user.email).to.eql('newEmail@test.com');\r",
-											"  pm.expect(responseJson.user.firstName).to.eql('newFirstName');\r",
-											"  pm.expect(responseJson.uesr.lastName).to.eql('newLastName');\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Email Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(\"newEmail@test.com\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(\"newFirstname\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Last Name Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(\"newLastName\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript"
@@ -43,12 +64,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{api-url}}user/1",
+									"raw": "{{api-url}}user/{{latestID}}",
 									"host": [
 										"{{api-url}}user"
 									],
 									"path": [
-										"1"
+										"{{latestID}}"
 									]
 								}
 							},
@@ -61,12 +82,33 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"User Body\", () => {\r",
+											"pm.test(\"New User Not Created\", () => {\r",
 											"  const responseJson = pm.response.json();\r",
-											"  pm.expect(responseJson.user.email).to.eql(JSON.stringify(\"newEmail@test.com\"));\r",
-											"  pm.expect(responseJson.user.firstName).to.eql(JSON.stringify(pm.environment.get(\"firstName\")));\r",
-											"  pm.expect(responseJson.uesr.lastName).to.eql(JSON.stringify(pm.environment.get(\"lastName\")));\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Email Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(\"newEmail@test.com\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Last Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript"
@@ -86,12 +128,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{api-url}}user/1",
+									"raw": "{{api-url}}user/{{latestID}}",
 									"host": [
 										"{{api-url}}user"
 									],
 									"path": [
-										"1"
+										"{{latestID}}"
 									]
 								}
 							},
@@ -104,9 +146,34 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
+											"pm.test(\"New User Not Created\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Email Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Last Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
 											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -125,12 +192,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{api-url}}user/1",
+									"raw": "{{api-url}}user/{{latestID}}",
 									"host": [
 										"{{api-url}}user"
 									],
 									"path": [
-										"1"
+										"{{latestID}}"
 									]
 								}
 							},
@@ -143,12 +210,34 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"User Body\", () => {\r",
+											"pm.test(\"New User Not Created\", () => {\r",
 											"  const responseJson = pm.response.json();\r",
-											"  pm.expect(responseJson.user.email).to.eql(pm.environment.get(\"email\"));\r",
-											"  pm.expect(responseJson.user.firstName).to.eql(\"newFirstName\");\r",
-											"  pm.expect(responseJson.uesr.lastName).to.eql(pm.environment.get(\"lastName\"));\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Email Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(\"newFirstname\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Last Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript"
@@ -168,12 +257,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{api-url}}user/1",
+									"raw": "{{api-url}}user/{{latestID}}",
 									"host": [
 										"{{api-url}}user"
 									],
 									"path": [
-										"1"
+										"{{latestID}}"
 									]
 								}
 							},
@@ -186,12 +275,34 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"User Body\", () => {\r",
+											"pm.test(\"New User Not Created\", () => {\r",
 											"  const responseJson = pm.response.json();\r",
-											"  pm.expect(responseJson.user.email).to.eql(pm.environment.get(\"email\"));\r",
-											"  pm.expect(responseJson.user.firstName).to.eql(pm.environment.get(\"firstName\"));\r",
-											"  pm.expect(responseJson.uesr.lastName).to.eql(\"newLastName\");\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Email Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name Not Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Last Name Updated\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(\"newLastName\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript"
@@ -211,12 +322,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{api-url}}user/1",
+									"raw": "{{api-url}}user/{{latestID}}",
 									"host": [
 										"{{api-url}}user"
 									],
 									"path": [
-										"1"
+										"{{latestID}}"
 									]
 								}
 							},
@@ -230,9 +341,9 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.sendRequest({",
-									"    url: pm.environment.get(\"api-url\") + 'user/1',",
+									"    url: pm.collectionVariables.get(\"api-url\") + 'user/' + pm.collectionVariables.get(\"latestID\"),",
 									"    method: 'DELETE',",
-									"    header: {'content-type': 'application/json'},",
+									"    header: {'content-type': 'application/json', \"authorization\" : \"7f,P[CMH4>@bDP6U>fnGp2)TpnVn>;4_\"},",
 									"    body: {}",
 									"}, function (err, res) {",
 									"    console.log(res);",
@@ -240,19 +351,20 @@
 									"",
 									"",
 									"pm.sendRequest({",
-									"    url: pm.environment.get(\"api-url\") + 'user/register',",
+									"    url: pm.collectionVariables.get(\"api-url\") + 'user',",
 									"    method: 'POST',",
 									"    header: {'content-type': 'application/json'},",
 									"    body: {",
 									"        mode: 'raw',",
 									"        raw: JSON.stringify({ ",
-									"            email: pm.environment.get(\"email\"), ",
-									"            password: pm.environment.get(\"password\"),",
-									"            firstName : pm.environment.get(\"firstName\"),",
-									"            lastName: pm.environment.get(\"lastName\") })",
+									"            email: pm.collectionVariables.get(\"email\"), ",
+									"            password: pm.collectionVariables.get(\"password\"),",
+									"            firstName : pm.collectionVariables.get(\"firstName\"),",
+									"            lastName: pm.collectionVariables.get(\"lastName\") })",
 									"    }",
 									"}, function (err, res) {",
 									"    console.log(res);",
+									"    pm.collectionVariables.set(\"latestID\", res.json().user.id);",
 									"});"
 								]
 							}
@@ -278,12 +390,30 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"User Body\", () => {\r",
+											"pm.collectionVariables.set(\"latestID\", pm.response.json().user.id);\r",
+											"\r",
+											"pm.test(\"Email\", () => {\r",
 											"  const responseJson = pm.response.json();\r",
-											"  pm.expect(responseJson.user.email).to.eql(pm.environment.get(\"email\"));\r",
-											"  pm.expect(responseJson.user.firstName).to.eql(pm.environment.get(\"firstName\"));\r",
-											"  pm.expect(responseJson.uesr.lastName).to.eql(pm.environment.get(\"lastName\"));\r",
+											"  pm.expect(responseJson.user.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
 											"});\r",
+											"\r",
+											"pm.test(\"First Name\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Last Name\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript"
@@ -303,7 +433,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
+									"raw": "http://127.0.0.1:8000/user",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -313,65 +443,7 @@
 									],
 									"port": "8000",
 									"path": [
-										"user",
-										"register"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Register - Existing Account",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"pm.sendRequest({\r",
-											"    url: pm.environment.get(\"api-url\") + 'user/register',\r",
-											"    method: 'POST',\r",
-											"    header: {'content-type': 'application/json'},\r",
-											"    body: {\r",
-											"        mode: 'raw',\r",
-											"        raw: JSON.stringify({ \r",
-											"            email: pm.environment.get(\"email\"), \r",
-											"            password: pm.  environment.get(\"password\"),\r",
-											"            firstName : pm.environment.get(\"firstName\"),\r",
-											"            lastName: pm.environment.get(\"lastName\") })\r",
-											"    }\r",
-											"}, function (err, res) {\r",
-											"    console.log(res);\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"firstName\": \"{{firstName}}\",\r\n    \"lastName\": \"{{lastName}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "8000",
-									"path": [
-										"user",
-										"register"
+										"user"
 									]
 								}
 							},
@@ -379,6 +451,28 @@
 						},
 						{
 							"name": "Register - No Email",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -392,7 +486,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
+									"raw": "http://127.0.0.1:8000/user",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -402,8 +496,7 @@
 									],
 									"port": "8000",
 									"path": [
-										"user",
-										"register"
+										"user"
 									]
 								}
 							},
@@ -411,6 +504,30 @@
 						},
 						{
 							"name": "Register  - No Password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -424,7 +541,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
+									"raw": "http://127.0.0.1:8000/user",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -434,8 +551,7 @@
 									],
 									"port": "8000",
 									"path": [
-										"user",
-										"register"
+										"user"
 									]
 								}
 							},
@@ -443,6 +559,19 @@
 						},
 						{
 							"name": "Register - No First Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -456,7 +585,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
+									"raw": "http://127.0.0.1:8000/user",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -466,8 +595,7 @@
 									],
 									"port": "8000",
 									"path": [
-										"user",
-										"register"
+										"user"
 									]
 								}
 							},
@@ -475,6 +603,19 @@
 						},
 						{
 							"name": "Register - No Last Name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -488,7 +629,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/user/register",
+									"raw": "http://127.0.0.1:8000/user",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -498,10 +639,10 @@
 									],
 									"port": "8000",
 									"path": [
-										"user",
-										"register"
+										"user"
 									]
-								}
+								},
+								"description": "Edward: <b>This request actually passes. Something wrong with PostMan?</b>"
 							},
 							"response": []
 						}
@@ -513,9 +654,9 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.sendRequest({",
-									"    url: pm.environment.get(\"api-url\") + 'user/1',",
+									"    url: pm.collectionVariables.get(\"api-url\") + 'user/' + pm.collectionVariables.get(\"latestID\"),",
 									"    method: 'DELETE',",
-									"    header: {'content-type': 'application/json'},",
+									"    header: {'content-type': 'application/json', \"authorization\" : \"7f,P[CMH4>@bDP6U>fnGp2)TpnVn>;4_\"},",
 									"    body: {}",
 									"}, function (err, res) {",
 									"    console.log(res);",
@@ -538,13 +679,51 @@
 					"name": "Login user",
 					"item": [
 						{
-							"name": "Login",
+							"name": "Login - Correct Password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct ID\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.id).to.eql(pm.collectionVariables.get(\"latestID\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Email\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"First Name\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Last Name\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\" : \"test123123@test.com\",\r\n    \"password\" : \"test123\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -579,6 +758,106 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Login - Incorrect Password",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"notCorrect\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/user",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"user"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "admin@admin.com",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "admin",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.collectionVariables.get(\"api-url\") + 'user',",
+									"    method: 'POST',",
+									"    header: {'content-type': 'application/json'},",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({ ",
+									"            email: pm.collectionVariables.get(\"email\"), ",
+									"            password: pm.collectionVariables.get(\"password\"),",
+									"            firstName : pm.collectionVariables.get(\"firstName\"),",
+									"            lastName: pm.collectionVariables.get(\"lastName\") })",
+									"    }",
+									"}, function (err, res) {",
+									"    console.log(res);",
+									"    pm.collectionVariables.set(\"latestID\", res.json().user.id);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				},
@@ -628,7 +907,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"paddock\" : {\r\n        \"name\" : \"test\",\r\n        \"size_ha\" : 10,\r\n        \"rowSpacing_cm\" : 10,\r\n        \"cropType\" : \"Wheat\",\r\n        \"cropParameters\" : {\"grainsPerHead\" : 4, \"headsPerM2\" : 3},\r\n        \"postCode\" : 4103\r\n    }\r\n}",
+							"raw": "{\r\n    \"paddock\" : {\r\n        \"name\" : \"test\",\r\n        \"size_ha\" : 10,\r\n        \"rowSpacing_cm\" : 10,\r\n        \"cropType\" : \"Wheat\",\r\n        \"grainsPerHead\" : 20,\r\n        \"grainHeads_pm2\" : 20,\r\n        \"postCode\" : 4103\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -708,6 +987,55 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get yields Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"yield\" : {\r\n                \"harvest_t\": 100,\r\n                \"date\": \"1985-04-12T23:20:50.52Z\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/user/1/paddocks/1/yields",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"1",
+								"paddocks",
+								"1",
+								"yields"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Predictions",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
 				}
 			]
 		}
@@ -754,11 +1082,11 @@
 		},
 		{
 			"key": "api-register",
-			"value": "user/register"
+			"value": "user"
 		},
 		{
 			"key": "api-login",
-			"value": "user/login"
+			"value": "user"
 		},
 		{
 			"key": "email",
@@ -775,6 +1103,10 @@
 		{
 			"key": "lastName",
 			"value": "Johnson"
+		},
+		{
+			"key": "latestID",
+			"value": "1"
 		}
 	]
 }
