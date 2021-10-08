@@ -3,6 +3,7 @@ from django import http
 
 class CorsMiddleware(object):
     """Custom MiddleWare to set CORS Headers"""
+    
     def __init__(self, get_response):
         self.get_response = get_response
 

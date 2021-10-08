@@ -5,6 +5,7 @@ class UserSerializer(serializers.ModelSerializer):
     """A Serializer for user.models.User"""
 
     class Meta:
+        """Overrides existing Meta class to specify a model and its required fields"""
         model = User
         # Specific the model attributes needed for serialization
         fields = ['id', 'email', 'password', 'firstName', 'lastName']

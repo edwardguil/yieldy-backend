@@ -6,10 +6,9 @@ from .serializers import YieldSerializer
 from .models import Yield
 from users.authFunctions import *
 
-# Create your views here.
 class YieldView(APIView):
+    """A View used for the endpoint /user/<int:idUser>/paddocks/<int:idPaddock>/yields"""
 
-    #Add yield
     def post(self, request, idUser, idPaddock, authed=False):
         """Adds a new yield to the database.
 

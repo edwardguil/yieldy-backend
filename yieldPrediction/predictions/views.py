@@ -7,8 +7,19 @@ from users.authFunctions import *
 from .predictionModels.BasicModel import basicModel
 
 class PredictionView(APIView):
+    """A View used for the endpoint /view/<int:idUser>/paddocks/<int:idPaddock>/prediction"""
 
     def get(self, request, idUser, idPaddock, authed=False):
+        """Returns prediction information for a particular paddock specified by slug.
+
+        Args:
+            request (dict): A python formatted http post request. 
+            idUser (int): the int representation of the slug from /users/<int:idUser>.
+            idPaddock (int): the int representation of the slug from .../paddocks/<int:idPaddock>
+            authed (bool): used for testing purposes - bypass JWT verification
+        Returns:
+            rest_framework.Response: A HTTP response containing json formatted user data & JWT. 
+        """
         if not authed:
             jwtUser, response, jsonWebToken = validate_token(request)
             if response != False:
