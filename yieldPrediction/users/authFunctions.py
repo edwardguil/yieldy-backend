@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User
 import jwt, datetime
+import smtplib
 
 BYPASS = "7f,P[CMH4>@bDP6U>fnGp2)TpnVn>;4_"
 
@@ -72,3 +73,31 @@ def refresh_token(payload):
 
     return token
 
+
+def suspicousLogin(userEmail):
+
+    gmail_user = 'yieldynotifications@gmail.com'
+    gmail_password = '1234!@#$asdf'
+
+
+    sent_from = gmail_user
+    to = userEmail
+    subject = 'Suspicious Login Attempt!'
+    body = "Hey, just to let you know, someone tried to login to your account. \n No further action is required, your account is not comprismised"
+
+    email_text = """\
+    From: %s
+    To: %s
+    Subject: %s
+
+    %s
+    """ % (sent_from, ", ".join(to), subject, body)
+
+    try:
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.ehlo()
+        server.login(gmail_user, gmail_password)
+        server.sendmail(sent_from, to, email_text)
+        server.close()
+    except:
+        print('Error Connecting to server.')
