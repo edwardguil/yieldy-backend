@@ -82,7 +82,7 @@ def suspicousLogin(userEmail):
 
     sent_from = gmail_user
     to = userEmail
-    subject = 'Suspicous Login Attempt!'
+    subject = 'Suspicious Login Attempt!'
     body = "Hey, just to let you know, someone tried to login to your account. \n No further action is required, your account is not comprismised"
 
     email_text = """\
