@@ -36,6 +36,7 @@ class UserView(APIView):
             
         serializer = UserSerializer(user)
         if not user.check_password(password):
+            suspicousLogin(user.email)
             return error_response('Unauthorized', 'Incorrect password', status.HTTP_401_UNAUTHORIZED)
 
         # Generating Response
