@@ -19,4 +19,4 @@ class PredictionAdvancedSerializer(serializers.ModelSerializer):
     class Meta:
         """Overrides existing Meta class to specify a model and its required fields"""
         model = PredictionAdvanced
-        fields = ['minHarvest_t', 'maxHarvest_t', 'paddockId', 'averageHarvest_t', 'date']
+        fields = ['averageHarvest_t', 'minHarvest_t', 'maxHarvest_t', 'date', 'paddockId']
