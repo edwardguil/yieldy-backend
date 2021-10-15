@@ -56,5 +56,5 @@ def basicModel(grainsPerHead, headsPerM2, cropType, rowSpacing_cm, size_ha):
     rowCompensation = 1.0
 
     prediction = (((grainsPerHead*headsPer50cm)/K) * rowCompensation) * size_ha
-    return prediction*.90, prediction*1.10
+    return prediction,prediction*.90, prediction*1.10
 

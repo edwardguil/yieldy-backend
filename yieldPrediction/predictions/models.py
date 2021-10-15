@@ -13,3 +13,7 @@ class PredictionAdvanced(models.Model):
     """A custom Django model. Used to store a advanced prediction for a particular paddock."""
     user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     paddockId = models.ForeignKey(Paddock, on_delete=models.CASCADE)
+    averageHarvest_t = models.FloatField()
+    minHarvest_t = models.FloatField()
+    maxHarvest_t = models.FloatField()
+    date =  models.DateField(auto_now_add=True)

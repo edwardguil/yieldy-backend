@@ -75,6 +75,11 @@ def refresh_token(payload):
 
 
 def suspicousLogin(userEmail):
+    """Sends a suspicous login email using gmail SMTP_SSL. 
+
+    Args:
+        userEmail (String): The email that a suspicious login should be sent too.  
+    """
 
     gmail_user = 'yieldynotifications@gmail.com'
     gmail_password = '1234!@#$asdf'

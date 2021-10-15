@@ -1,8 +1,8 @@
 from paddocks.models import Paddock
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PredictionBasicSerializer
-from .models import PredictionBasic
+from .serializers import PredictionBasicSerializer, PredictionAdvancedSerializer
+from .models import PredictionBasic, PredictionAdvanced
 from users.authFunctions import *
 from .predictionModels.BasicModel import basicModel
 
@@ -37,14 +37,14 @@ class PredictionView(APIView):
             return error_response('Bad ID', 'That paddock ID does not exist', status.HTTP_404_NOT_FOUND)
 
 
-        instance = PredictionBasic.objects.filter(paddockId=paddock).first()
+        instance = PredictionAdvanced.objects.filter(paddockId=paddock).first()
         if instance is None:
-            min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, 
+            avg, min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, 
                                     paddock.cropType, paddock.rowSpacing_cm, paddock.size_ha)
-            instance = PredictionBasic(user=user, paddockId=paddock, minHarvest_t=min, maxHarvest_t=max)
+            instance = PredictionBasic(user=user, paddockId=paddock, averageHarvest_t=avg, minHarvest_t=min, maxHarvest_t=max)
             instance.save()
         
-        serializer = PredictionBasicSerializer(instance=instance)
+        serializer = PredictionAdvancedSerializer(instance=instance)
         response.data = {"prediction" : serializer.data, 'auth' : {"jsonWebToken" : jsonWebToken}}
         
         return response
