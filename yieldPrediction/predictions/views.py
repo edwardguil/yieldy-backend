@@ -5,6 +5,7 @@ from .serializers import PredictionBasicSerializer, PredictionAdvancedSerializer
 from .models import PredictionBasic, PredictionAdvanced
 from users.authFunctions import *
 from .predictionModels.BasicModel import basicModel
+from random import randint
 
 class PredictionView(APIView):
     """A View used for the endpoint /view/<int:idUser>/paddocks/<int:idPaddock>/prediction"""
@@ -41,7 +42,8 @@ class PredictionView(APIView):
         if instance is None:
             avg, min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, 
                                     paddock.cropType, paddock.rowSpacing_cm, paddock.size_ha)
-            instance = PredictionBasic(user=user, paddockId=paddock, averageHarvest_t=avg, minHarvest_t=min, maxHarvest_t=max)
+            dateHarvest = datetime.datetime.utcnow() + datetime.timedelta(minutes=2**15 + randint(2**12, 2**16))
+            instance = PredictionAdvanced(user=user, paddockId=paddock, averageHarvest_t=avg, minHarvest_t=min, maxHarvest_t=max, date=dateHarvest)
             instance.save()
         
         serializer = PredictionAdvancedSerializer(instance=instance)

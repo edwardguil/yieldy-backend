@@ -16,4 +16,4 @@ class PredictionAdvanced(models.Model):
     averageHarvest_t = models.FloatField()
     minHarvest_t = models.FloatField()
     maxHarvest_t = models.FloatField()
-    date =  models.DateField(auto_now_add=True)
+    date =  models.DateField()
