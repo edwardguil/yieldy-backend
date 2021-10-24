@@ -1,3 +1,20 @@
+# Enter Your Answer - Project: Thunder Cats
+
+The official git repo for our group project - 'backend'
+
+# Installation
+1) Install [Anaconda](https://www.anaconda.com/products/individual)
+2) Clone the repo
+3) Open Anaconda Prompt
+4) CD to requirements folder
+5) Enter the following commands:
+    - conda create --name backendEnv --file condaRequirements.txt 
+        - Note: Type yes when prompted
+    - conda activate backendEnv
+    - pip install -r pipRequirements.txt
+6) Cd to to parent and type "python runserver.py". 
+7) Go to webaddress listed
+
 # Error Fixing:
 If you get an error stating: 
 ```
@@ -8,23 +25,6 @@ Please select a fix:
 ```
 Clear all the auto-generated files (which have been added to the `.gitignore`)
 by running `git clean -x -d -f`.
-
-# Enter Your Answer - Project: Thunder Cats
-
-The official git repo for our group project
-
-# Installation
-1) Clone the repo
-2) Open Anaconda Prompt
-3) CD to requirements folder
-4) Enter the following commands:
-    - conda create --name backendEnv --file condaRequirements.txt 
-        - Note: Type yes when prompted
-    - conda activate backendEnv
-    - pip install -r pipRequirements.txt
-5) Cd to to parent and type "python runserver.py". 
-6) Go to webaddress listed
-
 
 # Quick Overview On Django:
 
