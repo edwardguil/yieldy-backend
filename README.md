@@ -1,6 +1,10 @@
-# Enter Your Answer - Project: Thunder Cats
+# Enter Your Answer - Project: Thunder Cats - BackEnd
 
-The official git repo for our group project - 'backend'
+The official git repo for our group projects backend. 
+
+It is an API the serves the React front-end built in Python using the Django Rest Framework. 
+
+To browse the browsable API visit [this link](https://yieldyapi-jf4ttgxjxa-ts.a.run.app)
 
 # Installation
 1) Install [Anaconda](https://www.anaconda.com/products/individual)
