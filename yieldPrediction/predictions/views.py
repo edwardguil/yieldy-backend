@@ -42,7 +42,7 @@ class PredictionView(APIView):
         if instance is None:
             avg, min, max = basicModel(paddock.grainsPerHead, paddock.grainHeads_pm2, 
                                     paddock.cropType, paddock.rowSpacing_cm, paddock.size_ha)
-            dateHarvest = datetime.datetime.utcnow() + datetime.timedelta(minutes=2**15 + randint(2**12, 2**16))
+            dateHarvest = datetime.date.utcnow() + datetime.timedelta(minutes=2**15 + randint(2**12, 2**16))
             instance = PredictionAdvanced(user=user, paddockId=paddock, averageHarvest_t=avg, minHarvest_t=min, maxHarvest_t=max, date=dateHarvest)
             instance.save()
         
